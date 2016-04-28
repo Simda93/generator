@@ -116,6 +116,7 @@ class HistoryGenerator {
                 if(splitted[1].equals("0")){
                     duplication = false;
                 }else{
+                    duplication = true;
                     dup_rate = Double.valueOf(splitted[1]);
                 }
                 break;
@@ -123,6 +124,7 @@ class HistoryGenerator {
                 if(splitted[1].equals("0")){
                     inversion = false;
                 }else{
+                    inversion = true;
                     inv_rate = Double.valueOf(splitted[1]);
                 }
                 break;
@@ -130,6 +132,7 @@ class HistoryGenerator {
                 if(splitted[1].equals("0")){
                     deletion = false;
                 }else{
+                    deletion = true;
                     del_rate = Double.valueOf(splitted[1]);
                     max_deleted = Integer.valueOf(splitted[2]);
                 }
@@ -138,6 +141,7 @@ class HistoryGenerator {
                 if(splitted[1].equals("0")){
                     insertion = false;
                 }else{
+                    insertion = true;
                     ins_rate = Double.valueOf(splitted[1]);
                     max_inserted = Integer.valueOf(splitted[2]);
                 }
@@ -146,6 +150,7 @@ class HistoryGenerator {
                 if(splitted[1].equals("0")){
                     translocation = false;
                 }else{
+                    translocation = true;
                     trans_rate = Double.valueOf(splitted[1]);
                 }
                 break;
@@ -264,7 +269,7 @@ class HistoryGenerator {
 
     void generate() throws IOException {
         //inicializacia + prvy riadok
-        File file = new File(title + ".txt");
+        File file = new File(title + ".history");
         file.delete();
         file.createNewFile();
         String line = "testnode0 n0 root 0 root";
@@ -283,7 +288,7 @@ class HistoryGenerator {
         bw.newLine();
         
         
-        for (int i = 1; i < this.node_numb; i++) {
+        for (int i = 1; i <= this.node_numb; i++) {
             
             line = "testnode" + i + " n" + i + " n" + (i - 1) + " " + i + " special";
             int event_num = 1;
@@ -304,7 +309,7 @@ class HistoryGenerator {
                 if (starts.contains(j)) {
                     survivor_num++;
                     int amount;
-                    int max_last = genes.size() + 1;                   
+                    int max_last = genes.size() + 1;        //genes.size - j           
                     switch (get_event()) {
                         case "inversion":
                             //inverzia
@@ -344,7 +349,7 @@ class HistoryGenerator {
                             }
                             break;
                         case "translocation":
-                            amount = geom_dist(this.len_rate, max_last - j);
+                            amount = geom_dist(this.len_rate, max_last - j-1);
                             to_translocate.add(new Translocated(j, amount));
                             j = j + amount - 1;
                             break;
@@ -399,8 +404,8 @@ public class Main {
      public static void main(String[] args) throws IOException {
        String settings_file =args[0];
        File f = new File(settings_file);
-       HistoryGenerator hisge = new HistoryGenerator(f.getName().split(".")[0]);
-       if(!args[1].isEmpty()){
+       HistoryGenerator hisge = new HistoryGenerator(f.getName().split("\\.")[0]);
+       if(args.length>1){
            hisge.settitle(args[1]);
        }
        Scanner file_reader = new Scanner(f);
