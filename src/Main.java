@@ -159,7 +159,7 @@ class HistoryGenerator {
                 break;
             case "gene_numb":
                 gene_numb =Integer.parseInt(splitted[1]);
-                next_gene_numb = gene_numb;
+                next_gene_numb = gene_numb +1;
                 break;
             case "len_rate":
                 len_rate = Double.valueOf(splitted[1]);
@@ -276,12 +276,12 @@ class HistoryGenerator {
         FileWriter fw = new FileWriter(file.getAbsoluteFile());
         BufferedWriter bw = new BufferedWriter(fw);
         ArrayList genes = new ArrayList();
-        for (int i = 0; i < this.gene_numb; i++) {
+        for (int i = 1; i < this.gene_numb+1; i++) {
             line = line.concat(" " + i);
             genes.add(i);
         }
         line = line.concat(" #");
-        for (int i = 0; i < this.gene_numb; i++) {
+        for (int i = 1; i < this.gene_numb+1; i++) {
             line = line.concat(" -1");
         }
         bw.write(line);
@@ -408,13 +408,24 @@ public class Main {
        if(args.length>1){
            hisge.settitle(args[1]);
        }
+       int times = 1;
+       if(args.length>2){
+           times = Integer.parseInt(args[2]);
+       }
        Scanner file_reader = new Scanner(f);
        while(file_reader.hasNextLine()){
            String line = file_reader.nextLine();
            hisge.parse(line);
        }
-      
+       String title = hisge.title.split("\\.")[0];
+       if(times > 1){
+           for(int i=1;i<=times;i++){
+           hisge.settitle(title+"#"+i);
+           hisge.go();
+           }
+       }else{
        hisge.go();
+       }
     }
     
 }

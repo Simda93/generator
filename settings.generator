@@ -1,0 +1,9 @@
+node_numb 10
+gene_numb 10
+len_rate 0.75
+duplication 1
+inversion 1
+deletion 1 3
+insertion 1 5
+translocation 1
+
