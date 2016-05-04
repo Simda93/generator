@@ -45,7 +45,7 @@ class HistoryGenerator {
     int max_inserted = 2;
     int max_deleted = 2;
     String title = "Output";
-    int next_gene_numb = gene_numb;
+    int next_gene_numb = gene_numb+1;
     LinkedList<Event> distribution = new LinkedList();
 
     class Event {
@@ -419,6 +419,7 @@ public class Main {
        }
        String title = hisge.title.split("\\.")[0];
        if(times > 1){
+           hisge.next_gene_numb = hisge.gene_numb +1;
            for(int i=1;i<=times;i++){
            hisge.settitle(title+"#"+i);
            hisge.go();
