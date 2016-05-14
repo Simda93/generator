@@ -405,11 +405,8 @@ public class Main {
        String settings_file =args[0];
        File f = new File(settings_file);
        HistoryGenerator hisge = new HistoryGenerator(f.getName().split("\\.")[0]);
-       if(args.length>1){
-           hisge.settitle(args[1]);
-       }
        int times = 1;
-       if(args.length>2){
+       if(args.length>1){
            times = Integer.parseInt(args[2]);
        }
        Scanner file_reader = new Scanner(f);
@@ -418,15 +415,12 @@ public class Main {
            hisge.parse(line);
        }
        String title = hisge.title.split("\\.")[0];
-       if(times > 1){
            hisge.next_gene_numb = hisge.gene_numb +1;
            for(int i=1;i<=times;i++){
            hisge.settitle(title+"#"+i);
            hisge.go();
            }
-       }else{
-       hisge.go();
-       }
+      
     }
     
 }
